@@ -1,0 +1,8 @@
+program: obj
+        cc -o $@ *.o
+
+obj:
+        cc -c *.c
+
+clean:
+        rm book.o linkedList.o program
