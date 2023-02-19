@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-#include <pwd.h>
-#include <unistd.h>
 
 #include "linkedList.h"
 
@@ -13,10 +11,8 @@ int main(void)
 {
     struct Person *list = NULL;
 
-    uid_t uid = geteuid();
-    struct passwd *pw = getpwuid(uid);
     char path[30];
-    strcpy(path, pw->pw_dir);
+    strcpy(path, getenv("HOME"));
     strcat(path, "/addresses.csv");
     FILE *address_file = fopen(path, "r");
 
