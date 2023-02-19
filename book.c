@@ -6,15 +6,15 @@
 
 #include "linkedList.h"
 
-struct Person* newPerson();
+struct Person *newPerson();
 char Choice();
 
 int main(void)
 {
-    struct Person* list = NULL;
+    struct Person *list = NULL;
 
     uid_t uid = geteuid();
-    struct passwd* pw = getpwuid(uid);
+    struct passwd *pw = getpwuid(uid);
     char path[30];
     strcpy(path, pw->pw_dir);
     strcat(path, "/addresses.csv");
@@ -37,9 +37,9 @@ int main(void)
     char input = Choice();
     int position;
     bool success;
-    char* keyword = NULL;
+    char *keyword = NULL;
     keyword = (char*)malloc(sizeof(char*) * 8);
-    char* data = NULL;
+    char *data = NULL;
     data = (char*)malloc(sizeof(char*) * 31);
     char garb[50];
 
@@ -91,7 +91,7 @@ int main(void)
         }
         if (input == '4') {
             success = false;
-            struct Person* foundPerson = NULL;
+            struct Person *foundPerson = NULL;
             foundPerson = (struct Person*)malloc(sizeof(struct Person*));
             if (!(keyword == NULL || data == NULL || foundPerson == NULL)){
                 printf("Enter position: ");
@@ -218,7 +218,7 @@ beginning:
 
 struct Person *newPerson()
 {
-    struct Person* newPerson = NULL;
+    struct Person *newPerson = NULL;
     newPerson = (struct Person*)malloc(sizeof(struct Person*)*100);
     char garb[50];
 

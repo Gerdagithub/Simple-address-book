@@ -5,12 +5,12 @@
 #include "linkedList.h"
 #define DELIMETER ","
 
-void load_addresses(FILE* file, struct Person** list)
+void load_addresses(FILE *file, struct Person **list)
 {
     char line[128];
 
     while (fgets(line, sizeof(line), file)) {
-        struct Person* person = NULL;
+        struct Person *person = NULL;
         if (strcmp(line, "\n") == 0)
             continue;
 
@@ -20,13 +20,13 @@ void load_addresses(FILE* file, struct Person** list)
     }
 }
 
-struct Person* create_address_node(char* address_line)
+struct Person *create_address_node(char *address_line)
 {
-    struct Person* person = NULL;
-    char* name;
-    char* surname;
-    char* email;
-    char* number;
+    struct Person *person = NULL;
+    char *name;
+    char *surname;
+    char *email;
+    char *number;
 
     name = strtok(address_line, DELIMETER);
     surname = strtok(NULL, DELIMETER);
@@ -41,9 +41,9 @@ struct Person* create_address_node(char* address_line)
     return person;
 }
 
-struct Person* create_node(char* name, char* surname, char* email, char* number)
+struct Person *create_node(char *name, char *surname, char *email, char *number)
 {
-    struct Person* person = NULL;
+    struct Person *person = NULL;
     person = (struct Person*)malloc(sizeof(struct Person));
     if (person == NULL) {
         return NULL;
@@ -57,12 +57,12 @@ struct Person* create_node(char* name, char* surname, char* email, char* number)
     return person;
 }
 
-void print_list(struct Person* list)
+void print_list(struct Person *list)
 {
     int entry = 1;
 
     if (list != NULL) {
-        struct Person* temp = list;
+        struct Person *temp = list;
         while (temp != NULL) {
             printf("Entry %d -> Name - %s --- Surname - %s --- Email - %s --- Number - %s\n",
                     entry, temp->name, temp->surname, temp->email, temp->number);
@@ -75,9 +75,9 @@ void print_list(struct Person* list)
     else printf("The address book is empty.\n");
 }
 
-void add_to_the_end_of_the_list(struct Person** list, struct Person* person)
+void add_to_the_end_of_the_list(struct Person **list, struct Person *person)
 {
-    struct Person* temp = *list;
+    struct Person *temp = *list;
     if (temp == NULL) {
         *list = person;
         return;
@@ -89,16 +89,16 @@ void add_to_the_end_of_the_list(struct Person** list, struct Person* person)
     temp->next = person;
 }
 
-void insert_to_the_list(struct Person** list, struct Person* person, int position,
+void insert_to_the_list(struct Person **list, struct Person *person, int position,
                         bool *insertedSuccessfully)
 {
-    struct Person* curr = *list;
+    struct Person *curr = *list;
 
     if (position == 1) {
         person->next = *list;
         *list = person;
 
-        struct Person* temp = *list;
+        struct Person *temp = *list;
         while (temp != NULL) {
             temp = temp->next;
         }
@@ -120,9 +120,9 @@ void insert_to_the_list(struct Person** list, struct Person* person, int positio
     }
 }
 
-struct Person* find_address(struct Person** list, int index)
+struct Person *find_address(struct Person **list, int index)
 {
-    struct Person* curr = *list;
+    struct Person *curr = *list;
 
     if (index == 1)
         return curr;
@@ -139,10 +139,10 @@ struct Person* find_address(struct Person** list, int index)
     return NULL;
 }
 
-// Function that finds address by keyword. keyword can be name, surname, email or phone number.
-struct Person* found_address_by_keyword(struct Person* list, char* data, char *keyword)
+// Function that finds address by keyword. The keyword can be name, surname, email or phone number.
+struct Person *found_address_by_keyword(struct Person *list, char *data, char *keyword)
 {
-    struct Person* temp = list;
+    struct Person *temp = list;
 
     while (temp != NULL) {
         if (strcmp(keyword, "name") == 0 && strcmp(temp->name, data) == 0)
@@ -163,9 +163,9 @@ struct Person* found_address_by_keyword(struct Person* list, char* data, char *k
     return NULL;
 }
 
-void delete_address(struct Person** list, int position, bool *deletedSuccessfully)
+void delete_address(struct Person **list, int position, bool *deletedSuccessfully)
 {
-    struct Person* temp = *list;
+    struct Person *temp = *list;
 
     if (position == 1) {
         *list = (*list)->next;
@@ -177,7 +177,7 @@ void delete_address(struct Person** list, int position, bool *deletedSuccessfull
             }
             temp = temp->next;
         }
-        struct Person* temp2 = temp->next;
+        struct Person *temp2 = temp->next;
         temp->next = temp->next->next;
         free(temp2);
         *deletedSuccessfully = true;
@@ -198,10 +198,10 @@ int size_of_the_book(struct Person *list)
     return size;
 }
 
-void delete_list(struct Person** list)
+void delete_list(struct Person **list)
 {
-    struct Person* to_delete = *list;
-    struct Person* next;
+    struct Person *to_delete = *list;
+    struct Person *next;
 
     while (to_delete != NULL)
     {
