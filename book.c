@@ -33,10 +33,12 @@ int main(void)
     char input = Choice();
     int position;
     bool success;
-    char *keyword = NULL;
-    keyword = (char*)malloc(sizeof(char*) * 8);
-    char *data = NULL;
-    data = (char*)malloc(sizeof(char*) * 31);
+    char keyword[8];
+    //char *keyword = NULL;
+    //keyword = (char*)malloc(sizeof(char*) * 8);
+    char data[30];
+    //char *data = NULL;
+    //data = (char*)malloc(sizeof(char*) * 31);
     char garb[50];
 
     while (input != '9') {
@@ -89,7 +91,7 @@ int main(void)
             success = false;
             struct Person *foundPerson = NULL;
             foundPerson = (struct Person*)malloc(sizeof(struct Person*));
-            if (!(keyword == NULL || data == NULL || foundPerson == NULL)){
+            if (!(foundPerson == NULL)){
                 printf("Enter position: ");
                 scanf("%d", &position);
                 fgets(garb, sizeof(garb), stdin);
@@ -115,7 +117,7 @@ int main(void)
             success = false;
             struct Person *foundPerson = NULL;
             foundPerson = (struct Person*)malloc(sizeof(struct Person*));
-            if (keyword == NULL || data == NULL || foundPerson == NULL) {
+            if (foundPerson == NULL) {
                 printf("The request could not be fulfilled\n");
             }
             else {
@@ -176,8 +178,8 @@ int main(void)
             continue;
         }
         if (input == '9') {
-            free(keyword);
-            free(data);
+            //free(keyword);
+            //free(data);
             exit(0);
         }
     }

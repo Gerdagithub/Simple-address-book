@@ -140,7 +140,7 @@ struct Person *find_address(struct Person **list, int index)
 }
 
 // Function that finds address by keyword. The keyword can be name, surname, email or phone number.
-struct Person *found_address_by_keyword(struct Person *list, char *data, char *keyword)
+struct Person *found_address_by_keyword(struct Person *list, char data[], char keyword[])
 {
     struct Person *temp = list;
 
