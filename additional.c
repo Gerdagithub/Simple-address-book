@@ -29,16 +29,20 @@ int Choice()
 void parse_user_input(char *name, char *surname, char *email, char *number)
 {
     printf("\nEnter First name: ");
-    fscanf(stdin, "%29s", name);
+    fscanf(stdin, "%29[^\n]", name);
+    while (getchar() != '\n' && name != NULL);
 
     printf("Enter Last name: ");
-    fscanf(stdin, "%29s", surname);
+    fscanf(stdin, "%29[^\n]", surname);
+    while (getchar() != '\n' && surname != NULL);
 
     printf("Enter email: ");
-    fscanf(stdin, "%49s", email);
+    fscanf(stdin, "%49[^\n]", email);
+    while (getchar() != '\n' && email != NULL);
 
     printf("Enter number: ");
-    fscanf(stdin, "%24s", number);
+    fscanf(stdin, "%24[^\n]", number);
+    while (getchar() != '\n' && number != NULL);
 }
 
 int get_user_pos()

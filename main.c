@@ -22,9 +22,6 @@ int main(run_loop)
 
     Print_usage();
 
-    char input = Choice();
-    int position;
-
     while (run_loop) {
         switch (Choice()){
         case 1:
