@@ -34,12 +34,9 @@ int main(void)
     int position;
     bool success;
     char keyword[8];
-    //char *keyword = NULL;
-    //keyword = (char*)malloc(sizeof(char*) * 8);
     char data[30];
-    //char *data = NULL;
-    //data = (char*)malloc(sizeof(char*) * 31);
     char garb[50];
+    struct Person *person;
 
     while (input != '9') {
         if (input == '1') {
@@ -49,15 +46,11 @@ int main(void)
         }
         if (input == '2') {
             success = false;
-            struct Person *enteredPerson = NULL;
-            enteredPerson = (struct Person*)malloc(sizeof(struct Person*));
-            if (enteredPerson != NULL) {
-                enteredPerson = newPerson();
-                if (enteredPerson != NULL){
-                    add_to_the_end_of_the_list(&list, enteredPerson);
-                    printf("Address successfully was added to the list\n");
-                    success = true;
-                }
+            person = newPerson();
+            if (person != NULL){
+                add_to_the_end_of_the_list(&list, person);
+                printf("Address successfully was added to the list\n");
+                success = true;
             }
             if (!success)
                 printf("The request could not be fulfilled\n");
@@ -67,18 +60,14 @@ int main(void)
         }
         if (input == '3') {
             success = false;
-            struct Person* enteredPerson = NULL;
-            enteredPerson = (struct Person*)malloc(sizeof(struct Person*));
-            if (enteredPerson != NULL) {
-                enteredPerson = newPerson();
-                printf("Enter position: ");
-                scanf("%d", &position);
-                fgets(garb, sizeof(garb), stdin);
-                printf("\n");
-                insert_to_the_list(&list, enteredPerson, position, &success);
-                if (success){
-                    printf("Address successfully was inserted to %dth position in the list\n", position);
-                }
+            person = newPerson();
+            printf("Enter position: ");
+            scanf("%d", &position);
+            fgets(garb, sizeof(garb), stdin);
+            printf("\n");
+            insert_to_the_list(&list, person, position, &success);
+            if (success){
+                printf("Address successfully was inserted to %dth position in the list\n", position);
             }
             if (!success)
                 printf("The request could not be fulfilled\n");
@@ -89,59 +78,46 @@ int main(void)
         }
         if (input == '4') {
             success = false;
-            struct Person *foundPerson = NULL;
-            foundPerson = (struct Person*)malloc(sizeof(struct Person*));
-            if (!(foundPerson == NULL)){
-                printf("Enter position: ");
-                scanf("%d", &position);
-                fgets(garb, sizeof(garb), stdin);
-                foundPerson = find_address(&list, position);
-                if (foundPerson != NULL) {
-                      printf("\nAddress in %dth position:\n-> Name - %s --- Surname - %s --- Email - %s --- Number - %s\n",
-                              position, foundPerson->name, foundPerson->surname,
-                              foundPerson->email, foundPerson->number);
-
+            printf("Enter position: ");
+            scanf("%d", &position);
+            fgets(garb, sizeof(garb), stdin);
+            person = find_address(&list, position);
+            if (person != NULL) {
+                printf("\nAddress in %dth position:\n-> Name - %s --- Surname - %s --- Email - %s --- Number - %s\n",
+                        position, person->name, person->surname,
+                        person->email, person->number);
+                        
                     success = true;
-                }
-                position = -1;
             }
+            //position = -1;
             if (!success)
                 printf("The request could not be fulfilled\n");
 
             input = Choice();
                 continue;
-
         }
 
         if (input == '5') {
             success = false;
-            struct Person *foundPerson = NULL;
-            foundPerson = (struct Person*)malloc(sizeof(struct Person*));
-            if (foundPerson == NULL) {
-                printf("The request could not be fulfilled\n");
-            }
-            else {
-                success = false;
-                printf("Enter a keyword (name, surname, email or number): ");
-                scanf("%s", keyword);
-                printf("\n");
+            printf("Enter a keyword (name, surname, email or number): ");
+            scanf("%s", keyword);
+            printf("\n");
+            fgets(garb, sizeof(garb), stdin);
+            if (strcmp(keyword, "name") == 0 ||
+                strcmp(keyword, "surname") == 0 ||
+                strcmp(keyword, "email") == 0 ||
+                strcmp(keyword, "number") == 0) {
+
+                printf("Enter %s: ", keyword);
+                scanf("%s", data);
                 fgets(garb, sizeof(garb), stdin);
-                if (strcmp(keyword, "name") == 0 ||
-                    strcmp(keyword, "surname") == 0 ||
-                    strcmp(keyword, "email") == 0 ||
-                    strcmp(keyword, "number") == 0) {
+                person = found_address_by_keyword(list, data, keyword);
+                if (person != NULL) {
+                    printf("\nFound address:\n-> Name - %s --- Surname - %s --- Email - %s --- Number - %s\n",
+                          person->name, person->surname,
+                          person->email, person->number);
 
-                    printf("Enter %s: ", keyword);
-                    scanf("%s", data);
-                    fgets(garb, sizeof(garb), stdin);
-                    foundPerson = found_address_by_keyword(list, data, keyword);
-                    if (foundPerson != NULL) {
-                        printf("\nFound address:\n-> Name - %s --- Surname - %s --- Email - %s --- Number - %s\n",
-                              foundPerson->name, foundPerson->surname,
-                              foundPerson->email, foundPerson->number);
-
-                        success = true;
-                    }
+                    success = true;
                 }
             }
             if (!success)
@@ -178,8 +154,6 @@ int main(void)
             continue;
         }
         if (input == '9') {
-            //free(keyword);
-            //free(data);
             exit(0);
         }
     }
