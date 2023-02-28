@@ -33,7 +33,6 @@ int main(void)
     bool success;
     char keyword[8];
     char data[30];
-    char garb[50];
     struct Person *person;
 
     while (input != '9') {
@@ -61,7 +60,7 @@ int main(void)
             person = newPerson();
             printf("Enter position: ");
             scanf("%d", &position);
-            fgets(garb, sizeof(garb), stdin);
+            while (getchar() != '\n' && position != EOF);
             printf("\n");
             insert_to_the_list(&list, person, position, &success);
             if (success){
@@ -78,7 +77,7 @@ int main(void)
             success = false;
             printf("Enter position: ");
             scanf("%d", &position);
-            fgets(garb, sizeof(garb), stdin);
+            while (getchar() != '\n' && position != EOF);
             person = find_address(&list, position);
             if (person != NULL) {
                 printf("\nAddress in %dth position:\n-> Name - %s --- Surname - %s --- Email - %s --- Number - %s\n",
@@ -87,7 +86,6 @@ int main(void)
                         
                     success = true;
             }
-            //position = -1;
             if (!success)
                 printf("The request could not be fulfilled\n");
 
@@ -100,7 +98,7 @@ int main(void)
             printf("Enter a keyword (name, surname, email or number): ");
             scanf("%s", keyword);
             printf("\n");
-            fgets(garb, sizeof(garb), stdin);
+            while (getchar() != '\n' && keyword != EOF);
             if (strcmp(keyword, "name") == 0 ||
                 strcmp(keyword, "surname") == 0 ||
                 strcmp(keyword, "email") == 0 ||
@@ -108,7 +106,7 @@ int main(void)
 
                 printf("Enter %s: ", keyword);
                 scanf("%s", data);
-                fgets(garb, sizeof(garb), stdin);
+                while (getchar() != '\n' && data != EOF);
                 person = found_address_by_keyword(list, data, keyword);
                 if (person != NULL) {
                     printf("\nFound address:\n-> Name - %s --- Surname - %s --- Email - %s --- Number - %s\n",
@@ -128,7 +126,7 @@ int main(void)
             success = false;
             printf("Enter position: ");
             scanf("%d", &position);
-            fgets(garb, sizeof(garb), stdin);
+            while (getchar() != '\n' && position != EOF);
             printf("\n");
             delete_address(&list, position, &success);
             if (success)

@@ -24,24 +24,23 @@ struct Person *newPerson()
 {
     struct Person *newPerson = NULL;
     newPerson = (struct Person*)malloc(sizeof(struct Person*)*100);
-    char garb[50];
 
     if (newPerson != NULL) {
         printf("Enter name: ");
         scanf("%30[^\n]", newPerson->name);
-        fgets(garb, sizeof(garb), stdin);
+        while (getchar() != '\n' && newPerson->name != NULL);
 
         printf("Enter surname: ");
         scanf("%30[^\n]", newPerson->surname);
-        fgets(garb, sizeof(garb), stdin);
+        while (getchar() != '\n' && newPerson->surname != NULL);
 
         printf("Enter email: ");
         scanf("%30[^\n]", newPerson->email);
-        fgets(garb, sizeof(garb), stdin);
+        while (getchar() != '\n' && newPerson->email != NULL);
 
         printf("Enter phone number: ");
         scanf("%30[^\n]", newPerson->number);
-        fgets(garb, sizeof(garb), stdin);
+        while (getchar() != '\n' && newPerson->number != NULL);
 
         newPerson->next = NULL;
     } else return NULL;
