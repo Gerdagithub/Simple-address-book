@@ -9,8 +9,9 @@ struct Person {
 };
 
 void load_addresses(FILE *file, struct Person **list);
-struct Person *create_address_node(char *address_line);
+struct Person *newPerson();
 struct Person *create_node(char *name, char *surname, char *email, char *number);
+struct Person *create_address_node(char *address_line);
 void print_list(struct Person *list);
 void add_to_the_end_of_the_list(struct Person **list, struct Person *person);
 void insert_to_the_list(struct Person **list, struct Person *person, int position, bool *insertedSuccessfully);

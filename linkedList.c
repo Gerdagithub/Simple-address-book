@@ -20,6 +20,51 @@ void load_addresses(FILE *file, struct Person **list)
     }
 }
 
+struct Person *newPerson()
+{
+    struct Person *newPerson = NULL;
+    newPerson = (struct Person*)malloc(sizeof(struct Person*)*100);
+    char garb[50];
+
+    if (newPerson != NULL) {
+        printf("Enter name: ");
+        scanf("%30[^\n]", newPerson->name);
+        fgets(garb, sizeof(garb), stdin);
+
+        printf("Enter surname: ");
+        scanf("%30[^\n]", newPerson->surname);
+        fgets(garb, sizeof(garb), stdin);
+
+        printf("Enter email: ");
+        scanf("%30[^\n]", newPerson->email);
+        fgets(garb, sizeof(garb), stdin);
+
+        printf("Enter phone number: ");
+        scanf("%30[^\n]", newPerson->number);
+        fgets(garb, sizeof(garb), stdin);
+
+        newPerson->next = NULL;
+    } else return NULL;
+
+    return newPerson;
+}
+
+struct Person *create_node(char *name, char *surname, char *email, char *number)
+{
+    struct Person *person = NULL;
+    person = (struct Person*)malloc(sizeof(struct Person));
+    if (person == NULL) {
+        return NULL;
+    }
+    strcpy(person->name, name);
+    strcpy(person->surname, surname);
+    strcpy(person->email, email);
+    strcpy(person->number, number);
+
+    person->next = NULL;
+    return person;
+}
+
 struct Person *create_address_node(char *address_line)
 {
     struct Person *person = NULL;
@@ -38,22 +83,6 @@ struct Person *create_address_node(char *address_line)
 
     person = create_node(name, surname, email, number);
 
-    return person;
-}
-
-struct Person *create_node(char *name, char *surname, char *email, char *number)
-{
-    struct Person *person = NULL;
-    person = (struct Person*)malloc(sizeof(struct Person));
-    if (person == NULL) {
-        return NULL;
-    }
-    strcpy(person->name, name);
-    strcpy(person->surname, surname);
-    strcpy(person->email, email);
-    strcpy(person->number, number);
-
-    person->next = NULL;
     return person;
 }
 
