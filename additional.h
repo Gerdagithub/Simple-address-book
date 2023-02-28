@@ -1,1 +1,11 @@
-char Choice();
+void Print_usage();
+int Choice();
+void parse_user_input(char *name, char *surname, char *email, char *number);
+int get_user_pos();
+char *get_user_keyword();
+struct Person *newPerson();
+void add_address(struct Person **list);
+void Add_address_at_position(struct Person **list);
+void find_by_position(struct Person **list);
+void find_by_keyword(struct Person *list);
+void delete_at_position(struct Person **list);

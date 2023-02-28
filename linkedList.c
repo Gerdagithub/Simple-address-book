@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include "linkedList.h"
+#include "additional.h"
 #define DELIMETER ","
 
 void load_addresses(FILE *file, struct Person **list)
@@ -18,34 +19,6 @@ void load_addresses(FILE *file, struct Person **list)
         if (person != NULL)
             add_to_the_end_of_the_list(list, person);
     }
-}
-
-struct Person *newPerson()
-{
-    struct Person *newPerson = NULL;
-    newPerson = (struct Person*)malloc(sizeof(struct Person*)*100);
-
-    if (newPerson != NULL) {
-        printf("Enter name: ");
-        scanf("%30[^\n]", newPerson->name);
-        while (getchar() != '\n' && newPerson->name != NULL);
-
-        printf("Enter surname: ");
-        scanf("%30[^\n]", newPerson->surname);
-        while (getchar() != '\n' && newPerson->surname != NULL);
-
-        printf("Enter email: ");
-        scanf("%30[^\n]", newPerson->email);
-        while (getchar() != '\n' && newPerson->email != NULL);
-
-        printf("Enter phone number: ");
-        scanf("%30[^\n]", newPerson->number);
-        while (getchar() != '\n' && newPerson->number != NULL);
-
-        newPerson->next = NULL;
-    } else return NULL;
-
-    return newPerson;
 }
 
 struct Person *create_node(char *name, char *surname, char *email, char *number)
@@ -117,35 +90,34 @@ void add_to_the_end_of_the_list(struct Person **list, struct Person *person)
     temp->next = person;
 }
 
-void insert_to_the_list(struct Person **list, struct Person *person, int position,
-                        bool *insertedSuccessfully)
+int insert_to_the_list(struct Person **list, struct Person *person, int position)
 {
-    struct Person *curr = *list;
-
-    if (position == 1) {
-        person->next = *list;
+    struct Person *temp = *list;
+    int i = 1;
+    if(temp == NULL) {
         *list = person;
-
-        struct Person *temp = *list;
-        while (temp != NULL) {
-            temp = temp->next;
-        }
-
-        *insertedSuccessfully = true;
-    }else if(position > 1){
-        for (int i = 1; i <= position; i++) {
-
-            if (curr == NULL) {
-                break;
-            }
-            else if (i == position - 1) {
-                *insertedSuccessfully = true;
-                person->next = curr->next;
-                curr->next = person;
-            }
-            curr = curr->next;
-        }
+        return 2; 
     }
+
+    if(position == 1) {
+        person->next = temp;
+        *list = person;
+        return 0;
+    }
+
+    while(temp != NULL) {
+        if(temp->next == NULL) {
+            temp->next = person;
+            return 3;
+        } else if((position - 1) == i) {
+            person->next = temp->next;
+            temp->next = person;
+            break;
+        }
+        temp = temp->next;
+        i++;
+    }
+    return 0;
 }
 
 struct Person *find_address(struct Person **list, int index)
@@ -167,30 +139,52 @@ struct Person *find_address(struct Person **list, int index)
     return NULL;
 }
 
-// Function that finds address by keyword. The keyword can be name, surname, email or phone number.
-struct Person *found_address_by_keyword(struct Person *list, char data[], char keyword[])
+/*
+Function that finds address by keyword. The keyword can be 
+name, surname, email or phone number.
+*/
+struct Person *find_address_by_keyword(struct Person *list, char keyword[])
 {
+    struct Person *temp_list = NULL;
+    struct Person *node = NULL;
     struct Person *temp = list;
-
-    while (temp != NULL) {
-        if (strcmp(keyword, "name") == 0 && strcmp(temp->name, data) == 0)
-            return temp;
-
-        if (strcmp(keyword, "surname") == 0 && strcmp(temp->surname, data) == 0)
-            return temp;
-
-        if (strcmp(keyword, "email") == 0 && strcmp(temp->email, data) == 0)
-            return temp;
-
-        if (strcmp(keyword, "number") == 0 && strcmp(temp->number, data) == 0)
-            return temp;
-
+    int found = 0;
+    while(temp != NULL) {
+        if(strcmp(temp->name, keyword) == 0) {
+            found = 1;
+        } else if(strcmp(temp->surname, keyword) == 0) {
+            found = 1;
+        } else if(strcmp(temp->email, keyword) == 0) {
+            found = 1;
+        } else if(strcmp(temp->number, keyword) == 0) {
+            found = 1;
+        }
+        if(found) {
+            found = 0;
+            node = copy_node(temp);
+            add_to_the_end_of_the_list(&temp_list, node);
+        }
         temp = temp->next;
     }
-
-    return NULL;
+    return temp_list;
 }
 
+static struct Person *copy_node(struct Person *src)
+{
+    struct Person *copy = NULL;
+    copy = (struct Person *) malloc(sizeof(struct Person));
+    if (copy == NULL) {
+        return NULL;
+    }
+    strcpy(copy->name, src->name);
+    strcpy(copy->surname, src->surname);
+    strcpy(copy->email, src->email);
+    strcpy(copy->number, src->number);
+    copy->next = NULL;
+    return copy;
+}
+
+/*
 void delete_address(struct Person **list, int position, bool *deletedSuccessfully)
 {
     struct Person *temp = *list;
@@ -210,6 +204,27 @@ void delete_address(struct Person **list, int position, bool *deletedSuccessfull
         free(temp2);
         *deletedSuccessfully = true;
     }
+}*/
+
+int delete_addr_at_pos(struct Person **list, int position)
+{
+    struct Person *prev = *list;
+    struct Person *temp = *list;
+    int i = 1;
+    if(*list == NULL) {
+        return 1;
+    }
+    while(temp != NULL) {
+        if(position == i) {
+            prev->next = temp->next;
+            free(temp);
+            break;
+        }
+        prev = temp;
+        temp = temp->next;
+        i++;
+    }
+    return 0;
 }
 
 int size_of_the_book(struct Person *list)

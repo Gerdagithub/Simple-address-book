@@ -1,27 +1,177 @@
 #include <stdio.h>
 
-char Choice()
+#include "additional.h"
+#include "linkedList.h" ////////////////////
+
+void Print_usage()
 {
-    char input;
-    char symb = '9';
+    printf("1: Print address book\n");
+    printf("2: Add to address book\n");
+    printf("3: Add address at position\n");
+    printf("4: Find address by position\n");
+    printf("5: Find address by keyword\n");
+    printf("6: Delete address at position\n");
+    printf("7: Get address book size\n");
+    printf("8: Delete address book\n");
+    printf("9: Exit\n\n");
+}
 
-beginning:
-    printf("\nEnter your choice: ");
-    scanf("%c", &input);
+int Choice()
+{
+    int input;
+    printf("Enter your choice: ");
+    scanf("%d", &input);
     while (getchar() != '\n' && input != EOF);
-    printf("\n");
-
-    if (input < '1' || input > '9') {
-        printf("Only numbers 1 to 8 can be chosen.\n");
-        printf("If you want to try again type 'Y', if no, type 'N':\n");
-        scanf("%c", &symb);
-        while (getchar() != '\n' && symb != EOF);
-        if (symb == 'Y') {
-            goto beginning;
-        }else {
-            return '9';
-        }
-    }
 
     return input;
+}
+
+void parse_user_input(char *name, char *surname, char *email, char *number)
+{
+    printf("\nEnter First name: ");
+    fscanf(stdin, "%29s", name);
+
+    printf("Enter Last name: ");
+    fscanf(stdin, "%29s", surname);
+
+    printf("Enter email: ");
+    fscanf(stdin, "%49s", email);
+
+    printf("Enter number: ");
+    fscanf(stdin, "%24s", number);
+}
+
+int get_user_pos()
+{
+    int position;
+    printf("Enter position: ");
+    scanf("%d", &position);
+    while (getchar() != '\n' && position != EOF);
+    return position;
+}
+
+char *get_user_keyword()
+{
+    char *keyword = (char*) malloc(sizeof(char) * 50);
+    printf("Enter search keyword: ");
+    scanf("%49s", keyword);
+    return keyword;
+}
+
+struct Person *newPerson()
+{
+    struct Person *newPerson = NULL;
+    newPerson = (struct Person*)malloc(sizeof(struct Person*)*100);
+
+    if (newPerson != NULL) {
+        printf("Enter name: ");
+        scanf("%29[^\n]", newPerson->name);
+        while (getchar() != '\n' && newPerson->name != NULL);
+
+        printf("Enter surname: ");
+        scanf("%29[^\n]", newPerson->surname);
+        while (getchar() != '\n' && newPerson->surname != NULL);
+
+        printf("Enter email: ");
+        scanf("%49[^\n]", newPerson->email);
+        while (getchar() != '\n' && newPerson->email != NULL);
+
+        printf("Enter phone number: ");
+        scanf("%24[^\n]", newPerson->number);
+        while (getchar() != '\n' && newPerson->number != NULL);
+
+        newPerson->next = NULL;
+    } else return NULL;
+
+    return newPerson;
+}
+
+void add_address(struct Person **list)
+{
+    struct Person *address = NULL;
+    char name[30], surname[30], number[25], email[50];
+
+    parse_user_input(name, surname, email, number);
+    address = create_node(name, surname, email, number);
+    if (address == NULL) {
+            printf("Unable to create new address\n\n");
+            return;
+    }
+    add_to_the_end_of_the_list(list, address);
+    printf("Address successfully was added to the list\n\n");
+}
+
+void Add_address_at_position(struct Person **list)
+{
+    int position;
+    int rc;
+    struct Person *address = NULL;
+    char name[30], surname[30], number[25], email[50];
+
+    position = get_user_pos();
+    if (position <= 0) {
+        printf("Invalid position\n\n");
+        return;
+    }
+    parse_user_input(name, surname, email, number);
+    address = create_node(name, surname, email, number);
+    if (address == NULL) {
+            printf("Unable to create new address\n");
+            return;
+    }
+    rc = insert_to_the_list(list, address, position);
+    switch (rc) {
+        case 0:
+            printf("Address added at position -> %d\n\n", position);
+            break;
+        case 2:
+            printf("List was empty. Address added to the top\n\n");
+            break;
+        case 3:
+            printf("Address was added to the end of the list. Too few entries in the list\n\n");
+            break;
+        default:
+            break;
+    }
+}
+
+void find_by_position(struct Person **list)
+{
+    int position = get_user_pos();
+    struct Person *person = find_address(list, position);
+
+    if (person != NULL)
+        printf("\nAddress in %dth position:\n-> Name - %s --- Surname - %s --- Email - %s --- Number - %s\n",
+                position, person->name, person->surname,
+                person->email, person->number);
+
+    else printf("No address was found by the position %d\n", position);
+}
+
+void find_by_keyword(struct Person *list)
+{
+    char *keyword;
+    struct Person *temp_list = NULL;
+    keyword = get_user_keyword();
+    temp_list = find_address_by_keyword(list, keyword);
+    if (temp_list != NULL) {
+        print_list(temp_list);
+    } else {
+        printf("No address was found by the keyword - %s\n\n", keyword);
+    }
+    if (keyword != NULL) {
+        free(keyword);
+    }
+    delete_list(&temp_list);
+}
+
+void delete_at_position(struct Person **list)
+{
+    int position;
+    position = get_user_pos();
+    if(position < 1 || position > size_of_the_book(*list)) {
+        printf("Invalid position\n\n");
+        return;
+    }
+    delete_addr_at_pos(list, position);
 }
