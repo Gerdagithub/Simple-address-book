@@ -1,8 +1,3 @@
-/*#include <stdio.h>
-#include <string.h>
-
-#include "linkedList.h"
-#include "additional.h"*/
 #include "main.h"
 
 static int run_loop = 1;

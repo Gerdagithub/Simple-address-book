@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
-
 #include "linkedList.h"
 #include "additional.h"
 
