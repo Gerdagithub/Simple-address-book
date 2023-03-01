@@ -123,11 +123,7 @@ struct Person *find_address(struct Person **list, int index)
     return NULL;
 }
 
-/*
-Function that finds address by keyword. The keyword can be 
-name, surname, email or phone number.
-*/
-struct Person *find_address_by_keyword(struct Person *list, char keyword[])
+struct Person *find_address_by_keyword(struct Person *list, char *keyword)
 {
     struct Person *temp_list = NULL;
     struct Person *node = NULL;

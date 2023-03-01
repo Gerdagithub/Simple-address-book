@@ -68,7 +68,7 @@ char *get_user_keyword()
 
 void load_addresses(FILE *file, struct Person **list)
 {
-    char line[128];
+    char line[132];
 
     while (fgets(line, sizeof(line), file)) {
         struct Person *person = NULL;

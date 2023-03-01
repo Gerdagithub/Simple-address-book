@@ -1,14 +1,16 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <string.h>
 
 #include "linkedList.h"
-#include "additional.h"
+#include "additional.h"*/
+#include "main.h"
 
 static int run_loop = 1;
 
 int main(run_loop)
 {
     struct Person *list = NULL;
+    enum actions choice;
 
     char path[30];
     strcpy(path, getenv("HOME"));
@@ -18,8 +20,6 @@ int main(run_loop)
     if (address_file != NULL) {
         load_addresses(address_file, &list);
     }
-
-    enum actions choice;
 
     Print_usage();
 
