@@ -8,7 +8,6 @@ struct Person {
     struct Person *next;
 };
 
-void load_addresses(FILE *file, struct Person **list);
 struct Person *create_node(char *name, char *surname, char *email, char *number);
 struct Person *create_address_node(char *address_line);
 void print_list(struct Person *list);

@@ -4,22 +4,6 @@
 
 #include "linkedList.h"
 #include "additional.h"
-#define DELIMETER ","
-
-void load_addresses(FILE *file, struct Person **list)
-{
-    char line[128];
-
-    while (fgets(line, sizeof(line), file)) {
-        struct Person *person = NULL;
-        if (strcmp(line, "\n") == 0)
-            continue;
-
-        person = create_address_node(line);
-        if (person != NULL)
-            add_to_the_end_of_the_list(list, person);
-    }
-}
 
 struct Person *create_node(char *name, char *surname, char *email, char *number)
 {
@@ -62,18 +46,18 @@ void print_list(struct Person *list)
 {
     int entry = 1;
 
-    if (list != NULL) {
-        struct Person *temp = list;
-        while (temp != NULL) {
-            printf("Entry %d -> Name - %s --- Surname - %s --- Email - %s --- Number - %s\n",
-                    entry, temp->name, temp->surname, temp->email, temp->number);
+    if (list == NULL)
+        printf("The address book is empty.\n");
 
-            temp = temp->next;
-            entry++;
-        }
-        printf("\n");
+    struct Person *temp = list;
+    while (temp != NULL) {
+        printf("Entry %d -> Name - %s --- Surname - %s --- Email - %s --- Number - %s\n",
+                entry, temp->name, temp->surname, temp->email, temp->number);
+
+        temp = temp->next;
+        entry++;
     }
-    else printf("The address book is empty.\n");
+    printf("\n");
 }
 
 void add_to_the_end_of_the_list(struct Person **list, struct Person *person)
@@ -183,28 +167,6 @@ static struct Person *copy_node(struct Person *src)
     copy->next = NULL;
     return copy;
 }
-
-/*
-void delete_address(struct Person **list, int position, bool *deletedSuccessfully)
-{
-    struct Person *temp = *list;
-
-    if (position == 1) {
-        *list = (*list)->next;
-        *deletedSuccessfully = true;
-    }else if (position > 1){
-        for (int i = 0; i < position - 2; i++) {
-            if (temp == NULL) {
-                return;
-            }
-            temp = temp->next;
-        }
-        struct Person *temp2 = temp->next;
-        temp->next = temp->next->next;
-        free(temp2);
-        *deletedSuccessfully = true;
-    }
-}*/
 
 int delete_addr_at_pos(struct Person **list, int position)
 {

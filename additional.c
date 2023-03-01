@@ -1,7 +1,10 @@
 #include <stdio.h>
+#include <string.h>
 
-#include "additional.h"
+
 #include "linkedList.h" ////////////////////
+#include "additional.h"
+
 
 void Print_usage()
 {
@@ -58,36 +61,24 @@ char *get_user_keyword()
 {
     char *keyword = (char*) malloc(sizeof(char) * 50);
     printf("Enter search keyword: ");
-    scanf("%49s", keyword);
+    fscanf(stdin, "%49[^\n]", keyword);
+    while (getchar() != '\n' && keyword != NULL);
     return keyword;
 }
 
-struct Person *newPerson()
+void load_addresses(FILE *file, struct Person **list)
 {
-    struct Person *newPerson = NULL;
-    newPerson = (struct Person*)malloc(sizeof(struct Person*)*100);
+    char line[128];
 
-    if (newPerson != NULL) {
-        printf("Enter name: ");
-        scanf("%29[^\n]", newPerson->name);
-        while (getchar() != '\n' && newPerson->name != NULL);
+    while (fgets(line, sizeof(line), file)) {
+        struct Person *person = NULL;
+        if (strcmp(line, "\n") == 0)
+            continue;
 
-        printf("Enter surname: ");
-        scanf("%29[^\n]", newPerson->surname);
-        while (getchar() != '\n' && newPerson->surname != NULL);
-
-        printf("Enter email: ");
-        scanf("%49[^\n]", newPerson->email);
-        while (getchar() != '\n' && newPerson->email != NULL);
-
-        printf("Enter phone number: ");
-        scanf("%24[^\n]", newPerson->number);
-        while (getchar() != '\n' && newPerson->number != NULL);
-
-        newPerson->next = NULL;
-    } else return NULL;
-
-    return newPerson;
+        person = create_address_node(line);
+        if (person != NULL)
+            add_to_the_end_of_the_list(list, person);
+    }
 }
 
 void add_address(struct Person **list)
@@ -98,8 +89,8 @@ void add_address(struct Person **list)
     parse_user_input(name, surname, email, number);
     address = create_node(name, surname, email, number);
     if (address == NULL) {
-            printf("Unable to create new address\n\n");
-            return;
+        printf("Unable to create new address\n\n");
+        return;
     }
     add_to_the_end_of_the_list(list, address);
     printf("Address successfully was added to the list\n\n");
@@ -120,8 +111,8 @@ void Add_address_at_position(struct Person **list)
     parse_user_input(name, surname, email, number);
     address = create_node(name, surname, email, number);
     if (address == NULL) {
-            printf("Unable to create new address\n");
-            return;
+        printf("Unable to create new address\n");
+        return;
     }
     rc = insert_to_the_list(list, address, position);
     switch (rc) {

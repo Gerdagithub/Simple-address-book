@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-//#include <stdbool.h>
 
 #include "linkedList.h"
 #include "additional.h"
@@ -20,36 +19,38 @@ int main(run_loop)
         load_addresses(address_file, &list);
     }
 
+    enum actions choice;
+
     Print_usage();
 
     while (run_loop) {
-        switch (Choice()){
-        case 1:
+        switch (choice = Choice()){
+        case printList:
             print_list(list);
             break;
-        case 2:
+        case addToEnd:
             add_address(&list);
             break;
-        case 3:
+        case addAtPosition:
             Add_address_at_position(&list);
             break;
-        case 4:
+        case findByPosition:
             find_by_position(&list);
             break;
-        case 5:
+        case findByKeyword:
             find_by_keyword(list);
             break;
-        case 6:
+        case deleteAtPosition:
             delete_at_position(&list);
             break;
-        case 7:
+        case getSizeOfList:
             printf("Size of the address book: %d\n", size_of_the_book(list));
             break;
-        case 8:
+        case deleteList:
             delete_list(&list);
             printf("Address book was successfully deleted.\n");
             break;
-        case 9:
+        case exitProgram:
             run_loop = 0;
             break;
         default:
