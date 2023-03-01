@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <string.h>
+
 #define DELIMETER ","
 
 enum actions{
