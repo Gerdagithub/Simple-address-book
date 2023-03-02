@@ -2,10 +2,23 @@
 
 static int run_loop = 1;
 
+static void signal_handler(int signo)
+{
+    printf("\nCTRL+C was pressed. Stopping program\n");
+    run_loop = 0;
+}
+
 int main(void)
 {
     struct Person *list = NULL;
     enum actions choice;
+
+    struct sigaction sa;
+    memset(&sa, 0, sizeof(struct sigaction));
+    sa.sa_handler = signal_handler;
+    sa.sa_flags = 0;
+
+    sigaction(SIGINT, &sa, NULL);
 
     char path[30];
     strcpy(path, getenv("HOME"));
@@ -15,6 +28,8 @@ int main(void)
     if (address_file != NULL) {
         load_addresses(address_file, &list);
     }
+
+    fclose(address_file);
 
     Print_usage();
 
