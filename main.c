@@ -2,7 +2,7 @@
 
 static int run_loop = 1;
 
-int main(run_loop)
+int main(void)
 {
     struct Person *list = NULL;
     enum actions choice;
