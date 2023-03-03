@@ -1,12 +1,11 @@
 SRC:=$(wildcard *.c)
-OBJS:=$(SRC:.c=.o)
 
 all: program
 
-program: $(OBJS)
+program: $(SRC)
         $(CC) -o $@ $^
 
 .PHONY: clean
 
 clean:
-        $(RM) $(OBJS) program
+        $(RM) program
