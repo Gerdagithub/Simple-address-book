@@ -15,7 +15,7 @@ make_src:
 make_lib:
         make -C /usr/local/lib
 
-.PHONY: all make_src make_lib valgrind clean
+.PHONY: all make_src make_lib valgrind clean distclean
 
 valgrind: $(BIN)
         valgrind --leak-check=full --show-leak-kinds=all ./$<
@@ -24,3 +24,6 @@ clean:
         $(RM) $(BIN)
         make -C /usr/local/src clean
         make -C /usr/local/lib clean
+
+distclean:
+        $(RM) $(BIN)
