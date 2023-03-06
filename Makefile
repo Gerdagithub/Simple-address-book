@@ -6,14 +6,13 @@ CFLAGS:=-Wall
 
 all: $(BIN)
 
-$(BIN):
-        $(CC) $(LDLIBS) $(CFLAGS) -o $@ $(SRCDIR)main.c $(SRCDIR)additional.c -llinkedList
+$(BIN): $(SRCDIR)main.o $(SRCDIR)additional.o
+        $(CC) $(LDLIBS) $(CFLAGS) -o $@ $(SRCDIR)main.o $(SRCDIR)additional.o -llinkedList
 
 .PHONY: all valgrind clean
 
 valgrind: $(BIN)
-        valgrind ./$<
+        valgrind --leak-check=full --show-leak-kinds=all ./$<
 
 clean:
         $(RM) $(BIN)
-~                    
