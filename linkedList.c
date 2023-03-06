@@ -145,7 +145,7 @@ struct Person *find_address_by_keyword(struct Person *list, char *keyword)
     return temp_list;
 }
 
-static struct Person *copy_node(struct Person *src)
+struct Person *copy_node(struct Person *src)
 {
     struct Person *copy = NULL;
     copy = (struct Person *) malloc(sizeof(struct Person));
