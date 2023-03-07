@@ -1,13 +1,18 @@
-CC:=gcc
-SRCS:=create_node.c create_address_node.c print_list.c add_to_the_end_of_the_list.c insert_to_the_list.c find_address.c find_address_by_keyword.c copy_node.c delete_addr_at_pos.c size_of_the_book.c delete_list.c
+LIB:=liblinkedList.so
+SRCS:=$(wildcard *.c)
 OBJS:=$(SRCS:.c=.o)
-CFLAGS:=-fpic -Wall
+CFLAGS:=-Wall
 LDFLAGS:=-shared
 
-all: liblinkedList.so
+.PHONY: all clean
 
-liblinkedList.so: $(OBJS)
-        $(CC) $(LDFLAGS) $(OBJS) -o $@
+all: $(LIB)
+
+$(LIB): $(OBJS)
+	$(CC) $(CFLAGS) -fpic -o $@ $^ $(LDFLAGS)
+
+%.o: %.c
+	$(CC) -fpic $(CFLAGS) -c -o $@ $^ $(LDFLAGS)
 
 clean:
-        $(RM) $(OBJS) liblinkedList.so
+	$(RM) $(OBJS) $(LIB)

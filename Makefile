@@ -1,29 +1,17 @@
-CC:=gcc
-BIN:=address_book
-LDLIBS:=-L/usr/local/lib -Wl,-rpath=/usr/local/lib -llinkedList
-SRCDIR:=/usr/local/src/
-CFLAGS:=-Wall
+.PHONY: all clean clean_lib clean_src make_src make_lib
 
-all: make_src make_lib $(BIN)
-
-$(BIN): $(SRCDIR)main.o $(SRCDIR)additional.o
-        $(CC) $(LDLIBS) $(CFLAGS) -o $@ $(SRCDIR)main.o $(SRCDIR)additional.o -llinkedList
+all: make_lib make_src
 
 make_src:
-        make -C /usr/local/src
+	$(MAKE) -C ./src
 
 make_lib:
-        make -C /usr/local/lib
+	$(MAKE) -C ./lib
 
-.PHONY: all make_src make_lib valgrind clean distclean
+clean: clean_lib clean_src
 
-valgrind: $(BIN)
-        valgrind --leak-check=full --show-leak-kinds=all ./$<
+clean_lib:
+	$(MAKE) -C ./lib clean
 
-clean:
-        $(RM) $(BIN)
-        make -C /usr/local/src clean
-        make -C /usr/local/lib clean
-
-distclean:
-        $(RM) $(BIN)
+clean_src:
+	$(MAKE) -C ./src clean
