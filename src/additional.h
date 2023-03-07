@@ -3,16 +3,16 @@
 
 #define DELIMETER ","
 
-enum actions{
-    printList = 1,
-    addToEnd,
-    addAtPosition,
-    findByPosition,
-    findByKeyword,
-    deleteAtPosition,
-    getSizeOfList,
-    deleteList,
-    exitProgram
+enum actions {
+	printList = 1,
+	addToEnd,
+	addAtPosition,
+	findByPosition,
+	findByKeyword,
+	deleteAtPosition,
+	getSizeOfList,
+	deleteList,
+	exitProgram
 };
 
 void Print_usage();
@@ -26,3 +26,4 @@ void Add_address_at_position(struct Person **list);
 void find_by_position(struct Person **list);
 void find_by_keyword(struct Person *list);
 void delete_at_position(struct Person **list);
+struct Person *create_address_node(char *address_line);
